@@ -11,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.status span.MuiChip-label.MuiChip-labelMedium.css-6od3lo-MuiChip-label {
+  padding: 4px;
+}
