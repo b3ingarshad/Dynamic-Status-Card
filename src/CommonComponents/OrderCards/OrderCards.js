@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Card from "./Card";
+import CommonCard from "./CommonCard";
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import { StyledTypography } from './StyledTypography';
 
 const OrderCards = () => {
-  
+
   const filteredStatuses = ['Incoming', 'Preparing', 'Ready'];
 
   const [orders, setOrders] = useState([
@@ -101,23 +101,30 @@ const OrderCards = () => {
     }
   ]);
 
-  const ordersByStatus = orders.reduce((acc, order) => {
-    if (!acc[order.status]) {
-      acc[order.status] = { count: 0, orders: [] };
-    }
-    acc[order.status].count++;
-    acc[order.status].orders.push(order);
-    return acc;
-  }, {});
+    const ordersByStatus = orders?.reduce((acc, order) => {
+      if (!acc[order.status]) {
+        acc[order.status] = { count: 0, orders: [] };
+      }
+      acc[order.status].count++;
+      acc[order.status].orders.push(order);
+      return acc;
+    }, {});
 
+    const handleMarkAsDelivery = (orderId) => {
+      setOrders(prevOrders =>
+        prevOrders.map(order =>
+          order.id === orderId ? { ...order, status: 'archive' } : order
+        )
+      );
+    };
+
+    
   return (
-    <>
       <Box sx={{
         display: 'flex', overflowX: 'auto',
         margin: "0 12px"
       }}>
         {filteredStatuses.map((status, columnIndex) => (
-
           <Box
             key={columnIndex}
             sx={{
@@ -138,21 +145,15 @@ const OrderCards = () => {
               <Chip label={ordersByStatus[status]?.count || 0} style={{ height: "16px", marginLeft: "8px", color: 'white', background: "#9AA1AB" }} />
             </StyledTypography>
             {ordersByStatus[status]?.orders.map((order, index) => (
-              <>
-                <Card
-                  index={index}
-                  order={order}
-                  setOrders={setOrders}
-                />
-              </>
+              <CommonCard
+                index={index}
+                order={order}
+                handleMarkAsDelivery={handleMarkAsDelivery}
+              />
             ))}
           </Box>
-
-
         ))}
       </Box >
-
-    </>
   );
 };
 

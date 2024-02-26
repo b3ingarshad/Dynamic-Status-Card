@@ -7,17 +7,9 @@ import Chip from '@mui/material/Chip';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Card from '@mui/material/Card';
 
-const Card = ({ index, order, setOrders }) => {
-    const handleMarkAsDelivery = (orderId) => {
-        const updatedOrders = order.map(order => {
-            if (order.id === orderId) {
-                return { ...order, status: 'archive' };
-            }
-            return order;
-        });
-        setOrders(updatedOrders);
-    };
+const CommonCard = ({ index, order, handleMarkAsDelivery  }) => {
 
     const [anchorEl, setAnchorEl] = useState(new Array(order?.length).fill(null));
 
@@ -36,9 +28,8 @@ const Card = ({ index, order, setOrders }) => {
     const handleAction = (index, action) => {
         handleMenuClose(index);
     };
-    // console.log(order,"order");
+    
     return (
-        <>
             <Card
                 key={index}
                 style={{
@@ -78,10 +69,9 @@ const Card = ({ index, order, setOrders }) => {
                                 open={Boolean(anchorEl[index])}
                                 onClose={() => handleMenuClose(index)}
                             >
-                                {/* Add MenuItem for each action */}
                                 <MenuItem onClick={() => handleAction(index, 'action1')}>Action 1</MenuItem>
                                 <MenuItem onClick={() => handleAction(index, 'action2')}>Action 2</MenuItem>
-                                {/* Add more MenuItems for additional actions */}
+                            
                             </Menu>
                         </Typography>
                     </Typography>
@@ -145,7 +135,6 @@ const Card = ({ index, order, setOrders }) => {
                     </Typography>
                 </CardContent>
             </Card>
-        </>
     )
 }
-export default Card
+export default CommonCard
